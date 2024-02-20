@@ -1,0 +1,23 @@
+<c-card>
+
+    <table cTable hover bordered>
+        <thead>
+            <tr>
+                <th scope="col">Oil Name</th>
+                <th scope="col">Opening Balance</th>
+                <th scope="col">Sale Quantity</th>
+                <th scope="col">Closing Balance</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr *ngFor="let oil of Alldata" >
+                <th scope="row">{{oil.OilName}}</th>
+                <th scope="row"></th>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+
+    </table>
+</c-card>

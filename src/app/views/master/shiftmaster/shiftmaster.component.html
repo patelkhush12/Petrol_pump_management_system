@@ -1,0 +1,164 @@
+<c-navbar colorScheme="light" expand="lg" class="bg-light">
+  <!-- <c-container fluid>  -->
+  <!-- <a cNavbarBrand href="https://coreui.io/angular/" target="_blank"> -->
+  <!-- Navbar -->
+  <!-- </a> -->
+  <!-- <button [cNavbarToggler]="collapseRef"></button> -->
+  <div>
+    <form cForm class="d-flex" role="search">
+      <!-- <input cFormControl type="search" placeholder="Search" aria-label="Search" class="me-2"> -->
+      <button cButton color="primary" (click)="shiftmaster()">Add Details</button>
+    </form>
+  </div>
+  <!-- </c-container> -->
+</c-navbar>
+<c-card>
+  <c-card-header>
+    <c-input-group>
+      <div>
+        <span cInputGroupText class="span">
+          <i class="fa fa-search" aria-hidden="true"></i>
+          <input id="exampleFormControlInput1" class="border-1" id="validationCustom01" required type="text" />
+        </span>&nbsp;
+
+      </div>&nbsp;
+      <div>
+        <select class="selectcom activedrop" aria-label="select" cSelect [(ngModel)]="filterdata" #filter
+          (change)="datafilter($event)">
+          <option value={{filterresourcestrue}}>Active</option>
+          <option value={{filterresourcesfalse}}>In Active</option>
+        </select>
+      </div>
+
+    </c-input-group>
+
+  </c-card-header>
+
+  <table cTable hover bordered>
+    <thead>
+      <tr>
+        <th scope="col">Shift type</th>
+        <th scope="col">shiftDescription</th>
+        <th scope="col">status</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of shiftmasterAll">
+        <!-- <tr
+        *ngFor="let data of shiftmasterAll | paginate:{ itemsPerPage:tableSize,currentPage:page,totalItems:count}; let i=index"> -->
+
+        <td scope="row">{{data.ShiftType}}</td>
+        <td scope="row">{{data.ShiftDescription}}</td>
+        <td *ngIf="data.IsActive">
+          <!-- <span cInputGroupText>Active</span> -->
+          <!-- <c-avatar color="primary" shape="click" textColor="white">Active</c-avatar> -->
+          <c-badge color="primary">Active</c-badge>
+          <!-- Active -->
+          <!-- <i class="fa fa-toggle-on" aria-hidden="true"></i> -->
+        </td>
+        <td *ngIf="!data.IsActive">
+          <!-- <c-avatar color="danger" shape="click" textColor="white">InActive</c-avatar> -->
+          <c-badge color="danger">InActive</c-badge>
+          <!-- In Active -->
+
+          <!-- <i class="fa fa-toggle-off" aria-hidden="true"></i> -->
+        </td>
+        <td *ngIf="!data.IsActive">
+          <!-- <i class="fa fa-window-restore" aria-hidden="true"></i> -->
+          <button cButton color="success" shape="rounded-pill" (click)="restore(data)">restore</button>
+
+        </td>
+        <td *ngIf="data.IsActive">
+          <i class="fa fa-edit" (click)="edit(data)"></i> &nbsp;
+          <i class="fa fa-trash" (click)="delete(data)"></i>
+
+        </td>
+
+      </tr>
+
+      <!-- <tr>
+      <th scope="row">3</th>
+      <td colSpan="2">Larry the Bird</td>
+      <td>@twitter</td>
+    </tr> -->
+    </tbody>
+  </table>
+  <!-- <div>
+    <pagination-controls previouslabel="prev" nextlabel="next"
+      (pageChange)="onTableDataChange($event)"></pagination-controls>
+  </div> -->
+</c-card>
+<!-- <div class="nodata" *ngIf="allshifts.length === 0 ">No Data</div> -->
+<!-- <pagination-controls #p previousLable="prev" nextLable="Next" (pageChange)="onTableDataChange($event)">
+</pagination-controls> -->
+
+<c-modal [keyboard]="false" [transition]="false" backdrop="static" class="modalStatic" id="modalStatic"
+  #verticallyCenteredScrollableModal [scrollable]="true" alignment="center" [visible]="visible1">
+  <c-modal-header>
+    <h5 cModalTitle>shift master</h5>
+    <button cButtonClose (click)="close()"></button>
+
+  </c-modal-header>
+  <c-modal-body>
+    <form cForm [formGroup]="shiftmasterform">
+
+      <div class="mb-3">
+        <label cLabel for="exampleFormControlInput1">shift type</label>
+        <input cFormControl formControlName="ShiftType" id="exampleFormControlInput1" placeholder="Shift Type"
+          id="validationCustom01" type="text" />
+        <div *ngIf="submitted && this.shiftmasterform.controls['ShiftType'].errors?.['required']" class="error">
+          shifttype is required
+        </div>
+
+      </div>
+      <div class="mb-3">
+        <label cLabel for="exampleFormControlInput1">shift Description</label>
+        <input cFormControl formControlName="ShiftDescription" id="exampleFormControlInput1"
+          placeholder="ShiftDescription" id="validationCustom01" type="text" />
+        <div *ngIf="submitted && this.shiftmasterform.controls['ShiftDescription'].errors?.['required']" class="error">
+          ShiftDescription is required
+        </div>
+      </div>
+
+
+
+
+    </form>
+  </c-modal-body>
+  <c-modal-footer>
+    <button cButton color="primary" *ngIf="showAdd" (click)="add()">add</button>
+    <button cButton color="primary" *ngIf="showupdate" (click)="update()">update</button>
+  </c-modal-footer>
+</c-modal>
+<!-- <c-modal
+[keyboard]="false" [transition]="false" backdrop="static" class="modalStatic" id="modalStatic"
+#verticallyCenteredScrollableModal [scrollable]="true" alignment="center" [visible]="visible2" 
+>
+  <c-modal-header>
+    <h5 cModalTitle>delete</h5>
+    <button cButtonClose (click)="Inactive()"></button>
+
+  </c-modal-header>
+  <c-modal-body>Shift data is being InActive</c-modal-body>
+  <c-modal-footer>
+    <button cButton color="secondary">Close</button> -->
+<!-- <button cButton color="primary" (click)="Submit()">Submit</button>
+  </c-modal-footer>
+</c-modal>  -->
+<c-modal #modalSm id="modalSm" size="sm" [keyboard]="false" [transition]="false" backdrop="static" class="modalStatic"
+  id="modalStatic" #verticallyCenteredScrollableModal [scrollable]="true" alignment="center" [visible]="visible3">
+  <c-modal-body>Are you sure you want to active this employeedata</c-modal-body>
+  <c-modal-footer>
+    <button cButton color="secondary" (click)="notsubmit()">no</button>
+    <button cButton color="primary" (click)="submit()">Yes</button>
+  </c-modal-footer>
+</c-modal>
+<c-modal #modalSm id="modalSm" size="sm" [keyboard]="false" [transition]="false" backdrop="static" class="modalStatic"
+  id="modalStatic" #verticallyCenteredScrollableModal [scrollable]="true" alignment="center" [visible]="visible2">
+  <c-modal-body>Are you sure you want to Inactive this employeedata</c-modal-body>
+  <c-modal-footer>
+    <button cButton color="danger" (click)="no()">no</button>
+    <button cButton color="primary" (click)="yes()">Yes</button>
+  </c-modal-footer>
+</c-modal>

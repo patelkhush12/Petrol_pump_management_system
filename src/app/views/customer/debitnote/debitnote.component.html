@@ -1,0 +1,226 @@
+<c-navbar colorScheme="light" expand="lg" class="bg-light">
+
+  <div>
+    <form cForm class="d-flex" role="search">
+      <!-- <input cFormControl type="search" placeholder="Search" aria-label="Search" class="me-2"> -->
+      <button cButton color="primary" class="btn-postion" (click)="debitnote()">Add Details</button>
+    </form>
+  </div>
+</c-navbar>
+<c-card>
+  <c-card-header>
+    <c-input-group>
+      <div>
+        <span cInputGroupText class="span">
+          <i class="fa fa-search" aria-hidden="true"></i>
+          <input id="exampleFormControlInput1" class="border-1" id="validationCustom01" required type="text" />
+        </span>&nbsp;
+
+      </div>&nbsp;
+      <!-- <div>
+          <select class="selectcom activedrop" aria-label="select" cSelect [(ngModel)]="filterdata" #filter
+            (change)="datafilter($event)">
+            <option value={{filterresourcestrue}}>Active</option>
+            <option value={{filterresourcesfalse}}>In Active</option>
+          </select> -->
+      <!-- </div> -->
+
+    </c-input-group>
+
+  </c-card-header>
+  <table cTable hover bordered>
+    <thead>
+      <tr>
+
+        <th scope="col">CustomerName A/no</th>
+        <th scope="col">date</th>
+        <th scope="col">ShiftNO</th>
+        <th scope="col">Vehicleno</th>
+        <!-- <th scope="col">ShiftType</th> -->
+        <!-- <th scope="col">PumpType</th> -->
+        <!-- <th scope="col">NozelType</th> -->
+        <th scope="col">FuelType</th>
+        <th scope="col">Rate</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Amount</th>
+        <th scope="col">Action</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of adddebitnoteAll">
+        <th scope="row">{{data.Customer_Name[0].Acno.Name}}</th>
+        <td>{{data.Date}}</td>
+        <td>{{data.ShiftNO}}</td>
+        <td>{{data.Vehicleno}}</td>
+        <!-- <td>{{data.ShiftType}}</td> -->
+        <!-- <td>{{data.PumpName}}</td> -->
+        <!-- <td>{{data.NozelNumber}}</td> -->
+        <td>{{data.FuelName}}</td>
+        <td>{{data.Rate}}</td>
+        <td>{{data.Quantity}}</td>
+        <td>{{data.Amount}}</td>
+
+        <!-- <td *ngIf="data.IsActive">
+             <c-badge color="primary">Active</c-badge>
+   
+           </td>
+           <td *ngIf="!data.IsActive">
+             <c-badge color="danger">InActive</c-badge>
+           </td>
+           <td *ngIf="!data.IsActive">
+             <button cButton color="success" shape="rounded-pill" (click)="restore(data)">restore</button>
+     
+           </td > -->
+
+        <td *ngIf="data.IsActive">
+          <i class="fas fa-edit" (click)="edit(data)" [cModalToggle]="verticallyCenteredScrollableModal.id"></i> &nbsp;
+          <!-- <i class="fa fa-trash" (click)="delete(data)"></i> -->
+        </td>
+
+      </tr>
+      <!-- <tr>
+         <th scope="row">3</th>
+         <td colSpan="2">Larry the Bird</td>
+         <td>@twitter</td>
+       </tr> -->
+    </tbody>
+  </table>
+</c-card>
+<c-modal [keyboard]="false" [transition]="false" backdrop="static" class="modalStatic" id="modalStatic"
+  #verticallyCenteredScrollableModal [scrollable]="true" alignment="center" [visible]="visible1">
+  <c-modal-header>
+    <h5 cModalTitle>debitnote</h5>
+    <!-- <button cButtonClose></button> -->
+    <button cButtonClose (click)="closemodal()"></button>
+  </c-modal-header>
+  <c-modal-body>
+    <form cForm [formGroup]="debitnoteform" [validated]="customStylesValidated">
+
+      <div class="mb-3">
+        <label cLabel for="exampleFormControlInput1">CustomerName:</label>
+        <select aria-label="Default select example" formControlName="Customer_Name" cFormControl id="validationCustom01"
+          cSelect>
+          <option *ngFor="let debitnote of alldataName" [value]="debitnote.AddcustomerID">
+            {{debitnote.Acno}}{{debitnote.Name}}</option>
+        </select>
+
+      </div>
+      <div class="mb-3">
+        <label cLabel for="exampleFormControlInput1">date:</label>
+        <input cFormControl formControlName="Date" id="exampleFormControlInput1" placeholder="date"
+          id="validationCustom01" required type="date" />
+        <div *ngIf="submitted && this.debitnoteform.controls['date'].errors?.['required']" class="error">
+          name is required
+        </div>
+
+      </div>
+      <!-- <div class="mb-3">
+        <label cLabel for="exampleFormControlTextarea1">address:</label>
+        <textarea cFormControl formControlName="Acno" id="exampleFormControlTextarea1" id="validationCustom01" placeholder="Address" required
+          rows="3"></textarea>
+        <c-form-feedback [valid]="false">address is required</c-form-feedback>
+      </div> -->
+      <div class="mb-3">
+        <label cLabel for="exampleFormControlInput1">ShiftNO:</label>
+        <input cFormControl formControlName="ShiftNO" id="exampleFormControlInput1" placeholder="ShiftNO"
+          id="validationCustom01" required type="text" />
+        <div *ngIf="submitted && this.debitnoteform.controls['ShiftNO'].errors?.['required']" class="error">
+          phone number is required
+        </div>
+      </div>
+      <div class="mb-3">
+        <label cLabel for="exampleFormControlInput1">Vehicleno:</label>
+        <input cFormControl formControlName="Vehicleno" id="exampleFormControlInput1" placeholder="Vehicleno"
+          id="validationCustom01" required type="text" />
+        <div *ngIf="submitted && this.debitnoteform.controls['Vehicleno'].errors?.['required']" class="error">
+          Vehicleno is required
+        </div>
+      </div>
+      <div>
+        <label cLabel for="exampleFormControlInput1">ShiftType:</label>
+
+        <select aria-label="Default select example" formControlName="ShiftType" cFormControl id="validationCustom01"
+          cSelect>
+          <option *ngFor="let debitnote of alldatashift" [value]="debitnote.ShiftID">{{debitnote.ShiftType}}</option>
+        </select>
+
+      </div>
+      <div>
+        <label cLabel for="exampleFormControlInput1">PumpName:</label>
+
+        <select aria-label="Default select example" formControlName="PumpName" cFormControl id="validationCustom01"
+          cSelect>
+          <option *ngFor="let debitnote of alldatapump" [value]="debitnote.PumpID">{{debitnote.PumpName}}</option>
+        </select>
+
+      </div>
+
+      <div>
+        <label cLabel for="exampleFormControlInput1">NozelNumber:</label>
+
+        <select aria-label="Default select example" formControlName="NozelNumber" cFormControl id="validationCustom01"
+          cSelect>
+          <option *ngFor="let debitnote of alldatanozal" [value]="debitnote.NozelID">{{debitnote.NozelNumber}}</option>
+        </select>
+
+      </div>
+      <div>
+        <label cLabel for="exampleFormControlInput1">FuelName:</label>
+
+        <select aria-label="Default select example" formControlName="FuelName" cFormControl id="validationCustom01"
+          cSelect>
+          <option *ngFor="let debitnote of alldatafuel" [value]="debitnote.FuelID">{{debitnote.FuelName}}</option>
+        </select>
+
+      </div>
+      <div class="mb-3">
+        <label cLabel for="exampleFormControlInput1">Rate:</label>
+        <input cFormControl formControlName="Rate" id="exampleFormControlInput1" placeholder="Rate"
+          id="validationCustom01" required type="float" />
+        <div *ngIf="submitted && this.debitnoteform.controls['Rate'].errors?.['required']" class="error">
+          Rate is required
+        </div>
+      </div>
+      <div class="mb-3">
+        <label cLabel for="exampleFormControlInput1">Quantity:</label>
+        <input cFormControl formControlName="Quantity" id="exampleFormControlInput1" placeholder="Quantity"
+          id="validationCustom01" required type="number" />
+        <div *ngIf="submitted && this.debitnoteform.controls['Quantity'].errors?.['required']" class="error">
+          Rate is required
+        </div>
+      </div>
+      <div class="mb-3">
+        <label cLabel for="exampleFormControlInput1">Amount:</label>
+        <input cFormControl formControlName="Amount" id="exampleFormControlInput1" placeholder="Amount"
+          id="validationCustom01" required type="number" />
+        <div *ngIf="submitted && this.debitnoteform.controls['Amount'].errors?.['required']" class="error">
+          Amount is required
+        </div>
+      </div>
+
+
+    </form>
+  </c-modal-body>
+  <c-modal-footer>
+    <button cButton color="primary" *ngIf="showAdd" (click)="add()">add</button>
+    <button cButton color="primary" *ngIf="showupdate" (click)="update()">update</button>
+
+  </c-modal-footer>
+  <!-- </c-modal>
+<c-modal #modalSm id="modalSm" size="sm" [keyboard]="false" [transition]="false" backdrop="static" class="modalStatic"
+  id="modalStatic" #verticallyCenteredScrollableModal [scrollable]="true" alignment="center" [visible]="visible3">
+  <c-modal-body>Are you sure you want to active this debitnotedata</c-modal-body>
+  <c-modal-footer>
+    <button cButton color="secondary" (click)="notsubmit()">no</button>
+    <button cButton color="primary" (click)="submit()">Yes</button>
+  </c-modal-footer>
+</c-modal>
+<c-modal #modalSm id="modalSm" size="sm" [keyboard]="false" [transition]="false" backdrop="static" class="modalStatic"
+  id="modalStatic" #verticallyCenteredScrollableModal [scrollable]="true" alignment="center" [visible]="visible2">
+  <c-modal-body>Are you sure you want to Inactive this debitnotedata</c-modal-body>
+  <c-modal-footer>
+    <button cButton color="danger" (click)="no()">no</button>
+    <button cButton color="primary" (click)="yes()">Yes</button>
+  </c-modal-footer>
+</c-modal> -->

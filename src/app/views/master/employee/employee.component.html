@@ -1,0 +1,186 @@
+<c-navbar colorScheme="light" expand="lg" class="bg-light">
+  <!-- <c-container fluid>  -->
+  <!-- <a cNavbarBrand href="https://coreui.io/angular/" target="_blank"> -->
+  <!-- Navbar -->
+  <!-- </a> -->
+  <!-- <button [cNavbarToggler]="collapseRef"></button> -->
+  <div>
+    <form cForm class="d-flex" role="search">
+      <!-- <input cFormControl type="search" placeholder="Search" aria-label="Search" class="me-2"> -->
+      <button cButton color="primary" (click)="employee()">Add Details</button>
+    </form>
+  </div>
+  <!-- </c-container> -->
+</c-navbar>
+<c-card>
+  <c-card-header>
+    <c-input-group>
+      <div>
+        <span cInputGroupText class="span">
+          <i class="fa fa-search" aria-hidden="true"></i>
+          <input id="exampleFormControlInput1" class="border-1" id="validationCustom01" required type="text" />
+        </span>&nbsp;
+
+      </div>&nbsp;
+      <div>
+        <select class="selectcom activedrop" aria-label="select" cSelect [(ngModel)]="filterdata" #filter
+          (change)="datafilter($event)">
+          <option value={{filterresourcestrue}}>Active</option>
+          <option value={{filterresourcesfalse}}>In Active</option>
+        </select>
+      </div>
+
+    </c-input-group>
+
+  </c-card-header>
+
+
+  <table cTable hover bordered>
+    <thead>
+      <tr>
+        <th scope="col">First Name</th>
+        <th scope="col">Last Name</th>
+
+        <th scope="col">Salary Amount</th>
+        <th scope="col">Address</th>
+        <th scope="col">City</th>
+        <th scope="col">Mobile No</th>
+        <th scope="col">Pin Code</th>
+        <th scope="col">status</th>
+
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr *ngFor="let data of employeemasterAll">
+        <th scope="row">{{data.FirstName}}</th>
+        <td>{{data.LastName}}</td>
+        <td>{{data.Salary}}</td>
+        <td>{{data.Address}}</td>
+
+        <td>{{data.City}}</td>
+        <td>{{data.MobileNo}}</td>
+        <td>{{data.PinCode}}</td>
+
+        <td *ngIf="data.IsActive">
+          <c-badge color="primary">Active</c-badge>
+
+        </td>
+        <td *ngIf="!data.IsActive">
+          <c-badge color="danger">InActive</c-badge>
+        </td>
+        <td *ngIf="!data.IsActive">
+          <button cButton color="success" shape="rounded-pill" (click)="restore(data)">restore</button>
+
+        </td>
+        <td *ngIf="data.IsActive">
+          <i class="fa fa-edit" (click)="edit(data)"></i> &nbsp;
+          <i class="fa fa-trash" (click)="delete(data)"></i>
+        </td>
+
+      </tr>
+
+      <!-- <tr>
+        <th scope="row">3</th>
+        <td colSpan="2">Larry the Bird</td>
+        <td>@twitter</td>
+      </tr> -->
+    </tbody>
+  </table>
+</c-card>
+<c-modal [keyboard]="false" [transition]="false" backdrop="static" class="modalStatic" id="modalStatic"
+  #verticallyCenteredScrollableModal [scrollable]="true" alignment="center" [visible]="visible1">
+  <c-modal-header>
+    <h5 cModalTitle>Employee Master</h5>
+    <button cButtonClose (click)="close()"></button>
+
+  </c-modal-header>
+  <c-modal-body>
+    <form cForm [formGroup]="employeeform">
+
+      <div class="mb-3">
+        <label cLabel for="exampleFormControlInput1">FirstName:</label>
+        <input cFormControl formControlName="FirstName" id="exampleFormControlInput1" placeholder="Employee Name"
+          id="validationCustom01" required type="text" />
+        <div *ngIf="submitted && this.employeeform.controls['FirstName'].errors?.['required']" class="error">
+          FirstName is required
+        </div>
+
+      </div>
+      <div class="mb-3">
+        <label cLabel for="exampleFormControlInput1">lastName:</label>
+        <input cFormControl formControlName="LastName" id="exampleFormControlInput1" placeholder="Employee Name"
+          id="validationCustom01" required type="text" />
+        <div *ngIf="submitted && this.employeeform.controls['LastName'].errors?.['required']" class="error">
+          LastName is required
+        </div>
+
+      </div>
+
+      <div class="mb-3">
+        <label cLabel for="exampleFormControlInput1">Salary Amount:</label>
+        <input cFormControl formControlName="Salary" id="exampleFormControlInput1" placeholder="Salary Amount"
+          id="validationCustom01" required type="text" />
+        <div *ngIf="submitted && this.employeeform.controls['Salary'].errors?.['required']" class="error">
+          Salary is required
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label cLabel for="exampleFormControlInput1">Address:</label>
+        <input cFormControl formControlName="Address" id="exampleFormControlInput1" placeholder="Address"
+          id="validationCustom01" required type="text" />
+        <div *ngIf="submitted && this.employeeform.controls['Address'].errors?.['required']" class="error">
+          Address is required
+        </div>
+      </div>
+      <div class="mb-3">
+        <label cLabel for="exampleFormControlInput1">City:</label>
+        <input cFormControl formControlName="City" id="exampleFormControlInput1" placeholder="City"
+          id="validationCustom01" required type="text" />
+        <div *ngIf="submitted && this.employeeform.controls['City'].errors?.['required']" class="error">
+          City is required
+        </div>
+      </div>
+      <div class="mb-3">
+        <label cLabel for="exampleFormControlInput1">Mobile No:</label>
+        <input cFormControl formControlName="MobileNo" id="exampleFormControlInput1" placeholder="Phone No"
+          id="validationCustom01" required type="text" />
+        <div *ngIf="submitted && this.employeeform.controls['MobileNo'].errors?.['required']" class="error">
+          MobileNo is required
+        </div>
+      </div>
+      <div class="mb-3">
+        <label cLabel for="exampleFormControlInput1">Pin Code:</label>
+        <input cFormControl formControlName="PinCode" id="exampleFormControlInput1" placeholder="Phone No"
+          id="validationCustom01" required type="text" />
+        <div *ngIf="submitted && this.employeeform.controls['PinCode'].errors?.['required']" class="error">
+          PinCode is required
+        </div>
+      </div>
+
+
+    </form>
+  </c-modal-body>
+  <c-modal-footer>
+    <button cButton color="primary" *ngIf="showAdd" (click)="add()">add</button>
+    <button cButton color="primary" *ngIf="showupdate" (click)="update()">update</button>
+  </c-modal-footer>
+</c-modal>
+<c-modal #modalSm id="modalSm" size="sm" [keyboard]="false" [transition]="false" backdrop="static" class="modalStatic"
+  id="modalStatic" #verticallyCenteredScrollableModal [scrollable]="true" alignment="center" [visible]="visible3">
+  <c-modal-body>Are you sure you want to active this employeedata</c-modal-body>
+  <c-modal-footer>
+    <button cButton color="secondary" (click)="notsubmit()">no</button>
+    <button cButton color="primary" (click)="submit()">Yes</button>
+  </c-modal-footer>
+</c-modal>
+<c-modal #modalSm id="modalSm" size="sm" [keyboard]="false" [transition]="false" backdrop="static" class="modalStatic"
+  id="modalStatic" #verticallyCenteredScrollableModal [scrollable]="true" alignment="center" [visible]="visible2">
+  <c-modal-body>Are you sure you want to Inactive this employeedata</c-modal-body>
+  <c-modal-footer>
+    <button cButton color="danger" (click)="no()">no</button>
+    <button cButton color="primary" (click)="yes()">Yes</button>
+  </c-modal-footer>
+</c-modal>

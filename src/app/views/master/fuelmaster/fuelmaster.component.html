@@ -1,0 +1,164 @@
+<c-navbar colorScheme="light" expand="lg" class="bg-light">
+  <!-- <c-container fluid>   -->
+  <!-- <a cNavbarBrand href="https://coreui.io/angular/" target="_blank"> -->
+  <!-- Navbar -->
+  <!-- </a> -->
+  <!-- <button [cNavbarToggler]="collapseRef"></button> -->
+  <div>
+    <form cForm class="d-flex" role="search">
+      <!-- <input cFormControl type="search" placeholder="Search" aria-label="Search" class="me-2"> -->
+      <button cButton color="primary" (click)="fuelmaster()">Add
+        Details</button>
+    </form>
+  </div>
+  <!-- </c-container>  -->
+</c-navbar>
+<c-card>
+  <c-card-header>
+    <c-input-group>
+      <div>
+        <span cInputGroupText class="span">
+          <i class="fa fa-search" aria-hidden="true"></i>
+          <input id="exampleFormControlInput1" class="border-1" id="validationCustom01" required type="text" />
+        </span>&nbsp;
+
+      </div>&nbsp;
+      <div>
+        <select class="selectcom activedrop" aria-label="select" cSelect [(ngModel)]="filterdata" #filter
+          (change)="datafilter($event)">
+          <option value={{filterresourcestrue}}>Active</option>
+          <option value={{filterresourcesfalse}}>In Active</option>
+        </select>
+      </div>
+
+    </c-input-group>
+
+  </c-card-header>
+
+
+
+  <table cTable hover bordered>
+    <thead>
+      <tr>
+        <th scope="col">Petrolpump name</th>
+        <th scope="col">Fuel Name</th>
+        <th scope="col">Price</th>
+        <th scope="col">Date</th>
+        <th scope="col">status</th>
+
+        <th scope="col">Action</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of fuelmasterAll">
+        <th scope="row">{{data.PetrolPumpName[0].PumpName}}</th>
+        <th scope="row">{{data.FuelName}}</th>
+        <td>{{data.Price}}</td>
+        <td>{{data.Date}}</td>
+
+        <td *ngIf="data.IsActive">
+          <c-badge color="primary">Active</c-badge>
+
+        </td>
+        <td *ngIf="!data.IsActive">
+          <c-badge color="danger">InActive</c-badge>
+        </td>
+        <td *ngIf="!data.IsActive">
+          <button cButton color="success" shape="rounded-pill" (click)="restore(data)">restore</button>
+
+        </td>
+        <td *ngIf="data.IsActive">
+          <i class="fa fa-edit" (click)="edit(data)"></i> &nbsp;
+          <i class="fa fa-trash" (click)="delete(data)"></i>
+        </td>
+
+      </tr>
+      <!-- <tr>
+        <th scope="row">3</th>
+        <td colSpan="2">Larry the Bird</td>
+        <td>@twitter</td>
+      </tr> -->
+    </tbody>
+  </table>
+</c-card>
+<c-modal [keyboard]="false" [transition]="false" backdrop="static" class="modalStatic" id="modalStatic"
+  #verticallyCenteredScrollableModal [scrollable]="true" alignment="center" [visible]="visible1">
+  <c-modal-header>
+    <h5 cModalTitle>fuel master</h5>
+    <button cButtonClose (click)="close()"></button>
+  </c-modal-header>
+  <c-modal-body>
+    <form cForm [formGroup]="fuelmasterform">
+      <div>
+
+        <label cLabel for="exampleFormControlInput1">Petrolpump name:</label>
+        <select aria-label="Default select example" formControlName="PetrolPumpName" cFormControl
+          id="validationCustom01" cSelect>
+          <option *ngFor="let pump of pumps" [value]="pump.PumpID">{{pump.PumpName}}</option>
+        </select>
+
+        <!-- <select aria-label="Default select example" formControlName="Pumppumpname" cFormControl placeholder="Fuel Name"
+          id="validationCustom01" cSelect>
+          <option>{{PumpId}}</option>
+       
+        </select> -->
+      </div>
+
+      <div>
+
+        <label cLabel for="exampleFormControlInput1">Fuel name:</label>
+
+        <select aria-label="Default select example" formControlName="FuelName" cFormControl placeholder="Fuel Name"
+          id="validationCustom01" cSelect>
+          <option>Petrol
+          </option>
+          <option>Diesel</option>
+          <option>CNG</option>
+          <option>Power petrol</option>
+
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label cLabel for="exampleFormControlInput1">Price:</label>
+        <input cFormControl id="exampleFormControlInput1" formControlName="Price" placeholder="Price"
+          id="validationCustom01" required type="number" />
+        <div *ngIf="submitted && this.fuelmasterform.controls['Price'].errors?.['required']" class="error">
+          fuelmaster is required
+        </div>
+      </div>
+      <div class="mb-3">
+        <label cLabel for="exampleFormControlInput1">Date:</label>
+        <input cFormControl id="exampleFormControlInput1" formControlName="Date" placeholder="Date"
+          id="validationCustom01" required type="date" />
+        <div *ngIf="submitted && this.fuelmasterform.controls['Date'].errors?.['required']" class="error">
+          NozelType is required
+        </div>
+
+      </div>
+    </form>
+  </c-modal-body>
+  <c-modal-footer>
+    <button cButton color="primary" *ngIf="showAdd" (click)="add()">add</button>
+
+
+    <button cButton color="primary" *ngIf="showupdate" (click)="update()">update</button>
+  </c-modal-footer>
+</c-modal>
+<c-modal #modalSm id="modalSm" size="sm" [keyboard]="false" [transition]="false" backdrop="static" class="modalStatic"
+  id="modalStatic" #verticallyCenteredScrollableModal [scrollable]="true" alignment="center" [visible]="visible3">
+  <c-modal-body>Are you sure you want to active this fueldata</c-modal-body>
+  <c-modal-footer>
+    <button cButton color="secondary" (click)="notsubmit()">no</button>
+    <button cButton color="primary" (click)="submit()">Yes</button>
+  </c-modal-footer>
+</c-modal>
+<c-modal #modalSm id="modalSm" size="sm" [keyboard]="false" [transition]="false" backdrop="static" class="modalStatic"
+  id="modalStatic" #verticallyCenteredScrollableModal [scrollable]="true" alignment="center" [visible]="visible2">
+  <c-modal-body>Are you sure you want to Inactive this fueldata</c-modal-body>
+  <c-modal-footer>
+    <button cButton color="danger" (click)="no()">no</button>
+    <button cButton color="primary" (click)="yes()">Yes</button>
+  </c-modal-footer>
+</c-modal>

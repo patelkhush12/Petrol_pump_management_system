@@ -1,0 +1,192 @@
+<c-navbar colorScheme="light" expand="lg" class="bg-light">
+
+  <div>
+    <form cForm class="d-flex" role="search">
+      <!-- <input cFormControl type="search" placeholder="Search" aria-label="Search" class="me-2"> -->
+      <button cButton color="primary" (click)="creditnote()">Add
+        Details</button>
+    </form>
+  </div>
+  <!-- </c-container>  -->
+</c-navbar>
+<c-card>
+  <c-card-header>
+    <c-input-group>
+      <div>
+        <span cInputGroupText class="span">
+          <i class="fa fa-search" aria-hidden="true"></i>
+          <input id="exampleFormControlInput1" class="border-1" id="validationCustom01" required type="text" />
+        </span>&nbsp;
+
+      </div>&nbsp;
+      <!-- <div>
+        <select class="selectcom activedrop" aria-label="select" cSelect [(ngModel)]="filterdata" #filter
+          (change)="datafilter($event)">
+          <option value={{filterresourcestrue}}>Active</option>
+          <option value={{filterresourcesfalse}}>In Active</option>
+        </select>
+      </div> -->
+
+    </c-input-group>
+
+  </c-card-header>
+  <table cTable hover bordered>
+    <thead>
+      <tr>
+
+        <th scope="col">CustomerName</th>
+        <th scope="col">start date</th>
+        <th scope="col">end date</th>
+        <th scope="col">Paid Type</th>
+        <th scope="col">total Amount</th>
+        <th scope="col">Paid Account</th>
+        <th scope="col">action</th>
+
+
+      </tr>
+    </thead>
+
+      <tbody>
+        <tr *ngFor="let data of addcreditnoteAll">
+          <th scope="row">{{data.Name}}</th>
+          <td>{{data.startdate}}</td>
+          <td>{{data.enddate}}</td>
+          <td>{{data.paidtype}}</td>
+          <td>{{data.PaidAmount}}</td>
+          <td>{{data.bankname}}</td>
+          <td>{{data.bankac}}</td>
+          <!-- <td *ngIf="data.IsActive">
+            <c-badge color="primary">Active</c-badge>
+  
+          </td>
+          <td *ngIf="!data.IsActive">
+            <c-badge color="danger">InActive</c-badge>
+          </td> -->
+          <!-- <td *ngIf="!data.IsActive">
+            <button cButton color="success" shape="rounded-pill" (click)="restore(data)">restore</button>
+    
+          </td > -->
+        
+        <td >
+            <i class="fas fa-edit" [cModalToggle]="verticallyCenteredScrollableModal.id"
+                (click)="edit(data)"></i> &nbsp;
+            <!-- <i class="fa fa-trash" (click)="delete(data)"></i> -->
+        </td>
+  
+    </tr>
+      </tbody>
+    <!-- </thead> -->
+  </table>
+
+  <c-modal [keyboard]="false" [transition]="false" backdrop="static" class="modalStatic" id="modalStatic"
+    #verticallyCenteredScrollableModal [scrollable]="true" alignment="center" [visible]="visible1">
+    <c-modal-header>
+      <h5 cModalTitle>debitnote</h5>
+      <!-- <button cButtonClose></button> -->
+      <button cButtonClose (click)="closemodal()"></button>
+    </c-modal-header>
+    <c-modal-body>
+      <form cForm [formGroup]="creditnoteform" [validated]="customStylesValidated">
+
+        <div class="mb-3">
+          <label cLabel for="exampleFormControlInput1">CustomerName:</label>
+          <select aria-label="Default select example" formControlName="Name" cFormControl id="validationCustom01"
+            cSelect>
+            <option *ngFor="let creditnote of alldataName" [value]="creditnote.AddcustomerID">{{creditnote.Acno}}{{creditnote.Name}}
+            </option>
+          </select>
+
+        </div>
+        <div class="mb-3">
+          <label cLabel for="exampleFormControlInput1">startdate:</label>
+          <input formControlName="startdate" cFormControl id="exampleFormControlInput1" placeholder="startdate"
+            id="validationCustom01" required type="date" />
+          <div *ngIf="submitted && this.creditnoteform.controls['startdate'].errors?.['required']" class="error">
+            startdate is required
+          </div>
+        </div>
+        <div class="mb-3">
+          <label cLabel for="exampleFormControlInput1">enddate:</label>
+          <input formControlName="enddate" cFormControl id="exampleFormControlInput1" placeholder="startdate"
+            id="validationCustom01" required type="date" />
+          <div *ngIf="submitted && this.creditnoteform.controls['enddate'].errors?.['required']" class="error">
+            startdate is required
+          </div>
+        </div>
+        <div>
+
+          <label cLabel for="exampleFormControlInput1">Paid Type:</label>
+
+          <select aria-label="Default select example" formControlName="paidtype" cFormControl placeholder="Fuel Name"
+            id="validationCustom01" cSelect>
+            <option>Cheque
+            </option>
+            <option>cash</option>
+            <!-- <option>CNG</option>
+          <option>Power petrol</option> -->
+
+          </select>
+        </div>
+        <div class="mb-3">
+          <label cLabel for="exampleFormControlInput1">PaidAmount:</label>
+          <input formControlName="PaidAmount" cFormControl id="exampleFormControlInput1" placeholder="PaidAmount"
+            id="validationCustom01" required type="text" />
+          <div *ngIf="submitted && this.creditnoteform.controls['PaidAmount'].errors?.['required']" class="error">
+            PaidAmount is required
+          </div>
+        </div>
+        <!-- <div> -->
+          <div class="mb-3">
+            <label cLabel for="exampleFormControlInput1">BankName:</label>
+            <input formControlName="bankname" cFormControl id="exampleFormControlInput1" placeholder="BankName"
+              id="validationCustom01" required type="text" />
+            <div *ngIf="submitted && this.creditnoteform.controls['bankname'].errors?.['required']" class="error">
+              BankName is required
+            </div>
+          </div>
+          <!-- <div> -->
+            <div class="mb-3">
+              <label cLabel for="exampleFormControlInput1">ChequeNo:</label>
+              <input formControlName="chequeno" cFormControl id="exampleFormControlInput1" placeholder="ChequeNo"
+                id="validationCustom01" required type="text" />
+              <div *ngIf="submitted && this.creditnoteform.controls['chequeno'].errors?.['required']" class="error">
+                ChequeNo is required
+              </div>
+            </div>
+            <!-- <div> -->
+              <div class="mb-3">
+                <label cLabel for="exampleFormControlInput1">BankA/c:</label>
+                <input formControlName="bankac" cFormControl id="exampleFormControlInput1" placeholder="BankA/c"
+                  id="validationCustom01" required type="text" />
+                <div *ngIf="submitted && this.creditnoteform.controls['bankac'].errors?.['required']" class="error">
+                  BankA/c is required
+                </div>
+              </div>
+              <!-- <div> -->
+
+
+
+      </form>
+    </c-modal-body>
+    <c-modal-footer>
+      <button cButton color="primary" *ngIf="showAdd" (click)="add()">add</button>
+      <button cButton color="primary" *ngIf="showupdate" (click)="update()">update</button>
+
+    </c-modal-footer>
+  </c-modal>
+  <!-- <c-modal #modalSm id="modalSm" size="sm" [keyboard]="false" [transition]="false" backdrop="static" class="modalStatic"
+  id="modalStatic" #verticallyCenteredScrollableModal [scrollable]="true" alignment="center" [visible]="visible3">
+  <c-modal-body>Are you sure you want to active this addcustomerdata</c-modal-body>
+  <c-modal-footer>
+    <button cButton color="secondary" (click)="notsubmit()">no</button>
+    <button cButton color="primary" (click)="submit()">Yes</button>
+  </c-modal-footer>
+</c-modal>
+<c-modal #modalSm id="modalSm" size="sm" [keyboard]="false" [transition]="false" backdrop="static" class="modalStatic"
+  id="modalStatic" #verticallyCenteredScrollableModal [scrollable]="true" alignment="center" [visible]="visible2">
+  <c-modal-body>Are you sure you want to Inactive this addcustomerdata</c-modal-body>
+  <c-modal-footer>
+    <button cButton color="danger" (click)="no()">no</button>
+    <button cButton color="primary" (click)="yes()">Yes</button>
+  </c-modal-footer>
+</c-modal> -->

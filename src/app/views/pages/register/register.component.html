@@ -1,0 +1,94 @@
+<div class="bg-light min-vh-100 d-flex flex-row align-items-center">
+  <c-container>
+    <c-row class="justify-content-center">
+      <c-col lg="7" md="9" xl="6">
+        <h1 class="Sign">Sign Up</h1>
+        <c-card class="mx-4">
+          <c-card-body class="p-4">
+            <form cForm [formGroup]="csignupForm" [validated]="customStylesValidated">
+              <h1 class="Page mb-4">Create Your account</h1>
+              <!-- <p class="text-medium-emphasis Create">Create your account</p> -->
+              <c-input-group class="mb-3 mt-3">
+                <c-input-group>
+                  <span cInputGroupText>@</span>
+                  <input autoComplete="email" class="input" cFormControl formControlName="email"
+                    placeholder="Email Id" id="validationCustom01" type="email" />
+                </c-input-group>
+                <div class="validation" *ngIf="submitted && this.csignupForm.controls['email'].errors?.['required']">
+                  EmailId is required
+                </div>
+                <span class="validation" *ngIf="submitted && this.csignupForm.controls['email'].errors?.['required']">*</span>
+
+              </c-input-group>
+              <c-input-group class="mb-3">
+                <c-input-group>
+                  <span cInputGroupText>
+                    <i class="fa fa-bus" aria-hidden="true"></i>
+                  </span>
+                  <input autoComplete="name" class="input" cFormControl formControlName="PetrolPumpName"
+                    placeholder="PetrolPump Name" id="validationCustom01" type="text" />
+                </c-input-group>
+                <div class="validation" *ngIf="submitted && this.csignupForm.controls['PetrolPumpName'].errors?.['required']">
+                  Petrolpumpname is required
+                </div>
+                <span class="validation" *ngIf="submitted && this.csignupForm.controls['PetrolPumpName'].errors?.['required']">*</span>
+
+              </c-input-group>
+
+              <c-input-group class="mb-3">
+                <c-input-group>
+                  <span cInputGroupText>
+                    <i class="fa fa-desktop" aria-hidden="true"></i>                  </span>
+                  <input autoComplete="name" class="input" cFormControl formControlName="Branch" placeholder="Branch"
+                    id="validationCustom01" type="text" />
+                </c-input-group>
+
+                <div class="validation" *ngIf="submitted && this.csignupForm.controls['Branch'].errors?.['required']">
+                  Branch is required
+                </div>
+                <span class="validation" *ngIf="submitted && this.csignupForm.controls['Branch'].errors?.['required']">*</span>
+
+              </c-input-group>
+
+              <c-input-group class="mb-3">
+                <c-input-group>
+                  <span cInputGroupText>
+                    <svg cIcon name="cilLockLocked"></svg>
+                  </span>
+                  <input autoComplete="new-password" class="input" cFormControl formControlName="password"
+                    placeholder="Password" id="validationCustom01" type="password" />
+                </c-input-group>
+
+                <div class="validation" *ngIf="submitted && this.csignupForm.controls['password'].errors?.['required']">
+                  Password is required
+                </div>
+                <span class="validation" *ngIf="submitted && this.csignupForm.controls['password'].errors?.['required']">*</span>
+                <!-- <div class="def" *ngIf="submitted && this.csignupForm.controls['Password'].errors?.['minLength']">
+                  Password is not
+                </div> -->
+              </c-input-group>
+              <c-input-group class="mb-3">
+                <c-input-group>
+                  <span cInputGroupText>
+                    <svg cIcon name="cilLockLocked"></svg>
+                  </span>
+                  <input autoComplete="new-password" class="input" cFormControl formControlName="confirmPassword"
+                    placeholder="Confirm Password" id="validationCustom01" type="password" />
+                </c-input-group>
+                <div class="validation" *ngIf="submitted && this.csignupForm.controls['confirmPassword'].errors?.['required']">
+                  confirmpassword is required
+                </div>
+                <span class="validation" *ngIf="submitted && this.csignupForm.controls['confirmPassword'].errors?.['required']">*</span>
+
+              </c-input-group>
+              <div class="d-grid">
+                <button cButton class="signup mb-3" (click)="signup()">Create Account</button>
+              </div>
+            </form>
+            <a routerLink="/login" class="login"> Already have an account? Click to login</a>
+          </c-card-body>
+        </c-card>
+      </c-col>
+    </c-row>
+  </c-container>
+</div>

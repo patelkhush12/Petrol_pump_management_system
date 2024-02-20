@@ -1,0 +1,165 @@
+<c-navbar colorScheme="light" expand="lg" class="bg-light">
+    <div>
+    <form cForm class="d-flex" role="search">
+      <button cButton color="primary" (click)="oilmaster()">Add Details</button>
+    </form>
+  </div>
+</c-navbar>
+<c-card>
+  <c-card-header>
+    <c-input-group>
+      <div>
+        <span cInputGroupText class="span">
+          <i class="fa fa-search" aria-hidden="true"></i>
+          <input id="exampleFormControlInput1" class="border-1" id="validationCustom01" required type="text" />
+        </span>&nbsp;
+
+      </div>&nbsp;
+      <div>
+        <select class="selectcom activedrop" aria-label="select" cSelect [(ngModel)]="filterdata" #filter
+          (change)="datafilter($event)">
+          <option value={{filterresourcestrue}}>Active</option>
+          <option value={{filterresourcesfalse}}>In Active</option>
+        </select>
+      </div>
+
+    </c-input-group>
+
+  </c-card-header>
+
+  <table cTable hover bordered>
+    <thead>
+      <tr>
+        <th scope="col">Oil Name</th>
+        <th scope="col">Purchase Price</th>
+        <th scope="col">Sale Price</th>
+        <th scope="col">status</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of oilmasterAll">
+        <th scope="row">{{data.OilName}}</th>
+        <td>{{data.PurchasePrice}}</td>
+        <td>{{data.SalePrice}}</td>
+        <td *ngIf="data.IsActive">
+          <c-badge color="primary">Active</c-badge>
+
+        </td>
+        <td *ngIf="!data.IsActive">
+          <c-badge color="danger">InActive</c-badge>
+        </td>
+        <td *ngIf="!data.IsActive">
+          <!-- <c-badge color="success"(click)="restore(data)">restore</c-badge> -->
+          <button cButton color="success" shape="rounded-pill" (click)="restore(data)">restore</button>
+                </td>
+        <td *ngIf="data.IsActive"> 
+          <i class="fa fa-edit" (click)="edit(data)"></i> &nbsp;
+          <i class="fa fa-trash" (click)="delete(data)"></i>
+        </td>
+
+      </tr>
+
+      <!-- <tr>
+        <th scope="row">3</th>
+        <td colSpan="2">Larry the Bird</td>
+        <td>@twitter</td>
+      </tr> -->
+    </tbody>
+  </table>
+</c-card>
+<c-modal [keyboard]="false" [transition]="false" backdrop="static" class="modalStatic" id="modalStatic"
+  #verticallyCenteredScrollableModal [scrollable]="true" alignment="center" [visible]="visible1">
+  <c-modal-header>
+    <h5 cModalTitle>Oil Master</h5>
+    <button cButtonClose (click)="close()"></button>
+
+  </c-modal-header>
+  <c-modal-body>
+    <form cForm [formGroup]="credittypeform">
+
+      <div class="mb-3">
+        <label cLabel for="exampleFormControlInput1">Oil Name:</label>
+        <input cFormControl id="exampleFormControlInput1" formControlName="OilName" placeholder="Oil Name"
+          id="validationCustom01" required type="text" />
+        <div *ngIf="submitted && this.credittypeform.controls['OilName'].errors?.['required']" class="error">
+          OilName is required
+        </div>
+
+      </div>
+      <div class="mb-3">
+        <label cLabel for="exampleFormControlInput1">Purchase Price:</label>
+        <input cFormControl formControlName="PurchasePrice" id="exampleFormControlInput1" placeholder="Purchase Price"
+          id="validationCustom01" required type="float" />
+        <div *ngIf="submitted && this.credittypeform.controls['PurchasePrice'].errors?.['required']" class="error">
+          PurchasePrice is required
+        </div>
+
+      </div>
+
+      <div class="mb-3">
+        <label cLabel for="exampleFormControlInput1">Sale Price:</label>
+        <input cFormControl formControlName="SalePrice" id="exampleFormControlInput1" placeholder="Sale Price"
+          id="validationCustom01" required type="float" />
+        <div *ngIf="submitted && this.credittypeform.controls['SalePrice'].errors?.['required']" class="error">
+          SalePrice is required
+        </div>
+
+      </div>
+
+    </form>
+  </c-modal-body>
+  <c-modal-footer>
+    <button cButton color="primary" *ngIf="showAdd" (click)="add()">add</button>
+    <button cButton color="primary" *ngIf="showupdate" (click)="update()">update</button>
+  </c-modal-footer>
+</c-modal>
+<!-- <c-modal
+[keyboard]="false" [transition]="false" backdrop="static" class="modalStatic" id="modalStatic"
+#verticallyCenteredScrollableModal [scrollable]="true" alignment="center" [visible]="visible2" 
+>
+  <c-modal-header>
+    <h5 cModalTitle>delete</h5>
+    <button cButtonClose (click)="Inactive()"></button> -->
+
+  <!-- </c-modal-header>
+  <c-modal-body>oil data is becoming InActive</c-modal-body>
+  <c-modal-footer>
+    <button cButton color="secondary" (click)="no()">no</button>
+     <button cButton color="primary" (click)="yes()">Yes</button>
+  </c-modal-footer>
+</c-modal>   -->
+<!-- <c-modal
+[keyboard]="false" [transition]="false" backdrop="static" class="modalStatic" id="modalStatic"
+#verticallyCenteredScrollableModal [scrollable]="true" alignment="center" [visible]="visible3"
+
+>
+  <c-modal-header>
+    <h5 cModalTitle>restore</h5>
+    <button cButtonClose (click)="Inactive()"></button> -->
+<!-- 
+  </c-modal-header>
+  <c-modal-body>Oil data is becoming Active</c-modal-body>
+  <c-modal-footer>
+    <button cButton color="secondary" (click)="notsubmit()">no</button>
+     <button cButton color="primary" (click)="submit()">Yes</button>
+  </c-modal-footer>
+</c-modal>  -->
+<c-modal #modalSm id="modalSm" size="sm"[keyboard]="false" [transition]="false" backdrop="static" class="modalStatic" id="modalStatic"
+#verticallyCenteredScrollableModal [scrollable]="true" alignment="center" [visible]="visible3" 
+>
+  <c-modal-body>Are you sure you want to active this oildata</c-modal-body>
+  <c-modal-footer>
+    <button cButton color="secondary" (click)="notsubmit()">no</button>
+     <button cButton color="primary" (click)="submit()">Yes</button>
+  </c-modal-footer>
+</c-modal>
+<c-modal #modalSm id="modalSm" size="sm"[keyboard]="false" [transition]="false" backdrop="static" class="modalStatic" id="modalStatic"
+#verticallyCenteredScrollableModal [scrollable]="true" alignment="center" [visible]="visible2" 
+>
+  <c-modal-body>Are you sure you want to Inactive this oildata</c-modal-body>
+  <c-modal-footer>
+    <button cButton color="danger" (click)="no()">no</button>
+     <button cButton color="primary" (click)="yes()">Yes</button>
+  </c-modal-footer>
+</c-modal>

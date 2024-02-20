@@ -1,0 +1,162 @@
+<c-navbar colorScheme="light" expand="lg" class="bg-light">
+
+  <div>
+    <form cForm class="d-flex" role="search">
+      <!-- <input cFormControl type="search" placeholder="Search" aria-label="Search" class="me-2"> -->
+      <button cButton color="primary" (click)="addcustomer()">Add
+        Details</button>
+    </form>
+  </div>
+  <!-- </c-container>  -->
+</c-navbar>
+<c-card>
+  <!-- *ngIf="usersList.length;else notFound;"
+  <div  class="grid grid-cols-4">
+    <div *ngFor="let user of userlist">
+      <app-users
+      [user]="user">
+    </app>
+    </div>
+  </div> -->
+  <c-card-header>
+    <c-input-group>
+      <div>
+        <span cInputGroupText class="span">
+          <i class="fa fa-search" aria-hidden="true" (click)="table()"></i>
+
+          <input id="exampleFormControlInput1" class="border-1" id="validationCustom01" required type="text" />
+
+        </span>
+      </div>
+      <div>
+        <select class="selectcom activedrop" aria-label="select" cSelect [(ngModel)]="filterdata" #filter
+          (change)="datafilter($event)">
+          <option value={{filterresourcestrue}}>Active</option>
+          <option value={{filterresourcesfalse}}>In Active</option>
+        </select>
+      </div>
+
+    </c-input-group>
+
+  </c-card-header>
+
+  <table cTable hover bordered>
+    <thead>
+      <tr>
+
+        <th scope="col">A/c No</th>
+        <th scope="col">Name</th>
+        <th scope="col">phone</th>
+        <th scope="col">Account type</th>
+        <th scope="col">Action</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of addcustomerAll">
+        <th scope="row">{{data.Acno}}</th>
+        <td>{{data.Name}}</td>
+        <td>{{data.Phone}}</td>
+        <td>{{data.AccountDescription[0].AccountType}}</td>
+        <!-- <td *ngIf="data.IsActive">
+          <c-badge color="primary">Active</c-badge>
+
+        </td>
+        <td *ngIf="!data.IsActive">
+          <c-badge color="danger">InActive</c-badge>
+        </td> -->
+        <!-- <td *ngIf="!data.IsActive">
+          <button cButton color="success" shape="rounded-pill" (click)="restore(data)">restore</button>
+
+        </td> -->
+
+        <td>
+          <i class="fas fa-edit" [cModalToggle]="verticallyCenteredScrollableModal.id" (click)="edit(data)"></i> &nbsp;
+          <!-- <i class="fa fa-trash" (click)="delete(data)"></i> -->
+        </td>
+
+      </tr>
+      <!-- <tr>
+      <th scope="row">3</th>
+      <td colSpan="2">Larry the Bird</td>
+      <td>@twitter</td>
+    </tr> -->
+    </tbody>
+  </table>
+</c-card>
+
+<c-modal [keyboard]="false" [transition]="false" backdrop="static" class="modalStatic" id="modalStatic"
+  #verticallyCenteredScrollableModal [scrollable]="true" alignment="center" [visible]="visible1">
+  <c-modal-header>
+    <h5 cModalTitle>add customer</h5>
+    <!-- <button cButtonClose></button> -->
+    <button cButtonClose (click)="closemodal()"></button>
+  </c-modal-header>
+  <c-modal-body>
+    <form cForm [formGroup]="customerform" [validated]="customStylesValidated">
+
+      <div class="mb-3">
+        <label cLabel for="exampleFormControlInput1">A/c no:</label>
+        <input formControlName="Acno" cFormControl id="exampleFormControlInput1" placeholder="Acno"
+          id="validationCustom01" required type="number" />
+        <div *ngIf="submitted && this.customerform.controls['Acno'].errors?.['required']" class="error">
+          account number is required
+        </div>
+      </div>
+      <div class="mb-3">
+        <label cLabel for="exampleFormControlInput1">name:</label>
+        <input cFormControl formControlName="Name" id="exampleFormControlInput1" placeholder="Name"
+          id="validationCustom01" required type="text" />
+        <div *ngIf="submitted && this.customerform.controls['Name'].errors?.['required']" class="error">
+          name is required
+        </div>
+
+      </div>
+      <!-- <div class="mb-3">
+        <label cLabel for="exampleFormControlTextarea1">address:</label>
+        <textarea cFormControl formControlName="Acno" id="exampleFormControlTextarea1" id="validationCustom01" placeholder="Address" required
+          rows="3"></textarea>
+        <c-form-feedback [valid]="false">address is required</c-form-feedback>
+      </div> -->
+      <div class="mb-3">
+        <label cLabel for="exampleFormControlInput1">phone number:</label>
+        <input cFormControl formControlName="Phone" id="exampleFormControlInput1" placeholder="Phonenumber"
+          id="validationCustom01" required type="text" />
+        <div *ngIf="submitted && this.customerform.controls['phone'].errors?.['required']" class="error">
+          phone number is required
+        </div>
+      </div>
+      <div>
+        <label cLabel for="exampleFormControlInput1">Account duration:</label>
+
+        <select aria-label="Default select example" formControlName="AccountDescription" cFormControl
+          id="validationCustom01" cSelect>
+          <option *ngFor="let addcustomer of alldata" [value]="addcustomer.AccountID">{{addcustomer.AccountDescription}}
+          </option>
+        </select>
+
+      </div>
+    </form>
+  </c-modal-body>
+  <c-modal-footer>
+    <button cButton color="primary" *ngIf="showAdd" (click)="add()">add</button>
+    <button cButton color="primary" *ngIf="showupdate" (click)="update()">update</button>
+
+  </c-modal-footer>
+</c-modal>
+<!-- <c-modal #modalSm id="modalSm" size="sm" [keyboard]="false" [transition]="false" backdrop="static" class="modalStatic"
+  id="modalStatic" #verticallyCenteredScrollableModal [scrollable]="true" alignment="center" [visible]="visible3">
+  <c-modal-body>Are you sure you want to active this addcustomerdata</c-modal-body>
+  <c-modal-footer>
+    <button cButton color="secondary" (click)="notsubmit()">no</button>
+    <button cButton color="primary" (click)="submit()">Yes</button>
+  </c-modal-footer>
+</c-modal>
+<c-modal #modalSm id="modalSm" size="sm" [keyboard]="false" [transition]="false" backdrop="static" class="modalStatic"
+  id="modalStatic" #verticallyCenteredScrollableModal [scrollable]="true" alignment="center" [visible]="visible2">
+  <c-modal-body>Are you sure you want to Inactive this addcustomerdata</c-modal-body>
+  <c-modal-footer>
+    <button cButton color="danger" (click)="no()">no</button>
+    <button cButton color="primary" (click)="yes()">Yes</button>
+  </c-modal-footer>
+</c-modal> -->

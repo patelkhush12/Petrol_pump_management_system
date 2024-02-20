@@ -1,0 +1,111 @@
+<c-navbar colorScheme="light" expand="lg" class="bg-light">
+  <div>
+    <form cForm class="d-flex" role="search">
+      <button cButton color="primary" (click)="oilpurchase()">Add Details</button>
+    </form>
+  </div>
+</c-navbar>
+<c-card>
+  <c-card-header>
+    <c-input-group>
+      <div>
+        <span cInputGroupText class="span">
+          <i class="fa fa-search" aria-hidden="true"></i>
+          <input id="exampleFormControlInput1" class="border-1" id="validationCustom01" required type="text" />
+        </span>&nbsp;
+
+      </div>&nbsp;
+    </c-input-group>
+  </c-card-header>
+  <table cTable hover bordered>
+    <thead>
+      <tr>
+        <th scope="col">Oil name</th>
+
+        <th scope="col">Quantity</th>
+        <th scope="col">Amount</th>
+        <th scope="col">PurchaseDate</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of oilpuerchaseAll">
+        <td>{{data.OilName[0].OilName}}</td>
+
+        <td>{{data.Quantity}}</td>
+        <td>{{data.Amount}}</td>
+        <td>{{data.PurchaseDate}}</td>
+
+        <td>
+          <i class="fa fa-edit"></i> &nbsp;
+          <i class="fa fa-trash"></i>
+        </td>
+
+      </tr>
+
+
+    </tbody>
+
+  </table>
+
+</c-card>
+<c-modal [keyboard]="false" [transition]="false" backdrop="static" class="modalStatic" id="modalStatic"
+  #verticallyCenteredScrollableModal [scrollable]="true" alignment="center" [visible]="visible1">
+  <c-modal-header>
+    <h5 cModalTitle>Oil purchase</h5>
+    <button cButtonClose (click)="close()"></button>
+
+  </c-modal-header>
+  <c-modal-body>
+    <form cForm [formGroup]="oilpurchasefrom">
+      <div>
+
+        <label cLabel for="exampleFormControlInput1">OilName:</label>
+        <select aria-label="Default select example" formControlName="OilName" cFormControl id="validationCustom01"
+          cSelect>
+          <option *ngFor="let oilpurchase of alldata" [value]="oilpurchase.OilID">{{oilpurchase.OilName}}</option>
+        </select>
+
+        <!-- <select aria-label="Default select example" formControlName="Pumppumpname" cFormControl placeholder="Fuel Name"
+          id="validationCustom01" cSelect>
+          <option>{{PumpId}}</option>
+       
+        </select> -->
+      </div>
+
+      <div class="mb-3">
+        <label cLabel for="exampleFormControlInput1">Quantity:</label>
+        <input cFormControl id="exampleFormControlInput1" formControlName="Quantity" placeholder="Oil Name"
+          id="validationCustom01" required type="float" />
+        <div *ngIf="submitted && this.oilpurchasefrom.controls['Quantity'].errors?.['required']" class="error">
+          Quantity is required
+        </div>
+
+      </div>
+      <div class="mb-3">
+        <label cLabel for="exampleFormControlInput1">Amount:</label>
+        <input cFormControl formControlName="Amount" id="exampleFormControlInput1" placeholder="Purchase Price"
+          id="validationCustom01" required type="float" />
+        <div *ngIf="submitted && this.oilpurchasefrom.controls['Amount'].errors?.['required']" class="error">
+          PurchasePrice is required
+        </div>
+
+      </div>
+
+      <div class="mb-3">
+        <label cLabel for="exampleFormControlInput1">PurchaseDate:</label>
+        <input cFormControl formControlName="PurchaseDate" id="exampleFormControlInput1" placeholder="PurchaseDate"
+          id="validationCustom01" required type="date" />
+        <div *ngIf="submitted && this.oilpurchasefrom.controls['PurchaseDate'].errors?.['required']" class="error">
+          PurchaseDate is required
+        </div>
+
+      </div>
+
+    </form>
+  </c-modal-body>
+  <c-modal-footer>
+    <button cButton color="primary" *ngIf="showAdd" (click)="add()">add</button>
+    <button cButton color="primary" *ngIf="showupdate">update</button>
+  </c-modal-footer>
+</c-modal>
